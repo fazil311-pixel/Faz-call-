@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faz Call</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      color: #172033;
+    }
+    header {
+      background: #087fce;
+      color: white;
+      padding: 24px 18px;
+      text-align: center;
+    }
+    header h1 { margin: 0; font-size: 30px; }
+    header p { margin-bottom: 0; }
+    main { max-width: 480px; margin: auto; padding: 18px; }
+    .card {
+      background: white;
+      padding: 20px;
+      margin-bottom: 16px;
+      border-radius: 16px;
+      box-shadow: 0 3px 12px #0000000c;
+    }
+    h2 { margin-top: 0; }
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 13px 16px;
+      background: #087fce;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 4px 2px;
+    }
+    input {
+      width: 100%;
+      padding: 13px;
+      margin: 8px 0;
+      border: 1px solid #ccd5df;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+    .secondary { background: #e5eff8; color: #075c98; }
+    #status { color: #087f55; font-weight: bold; }
+    footer { text-align: center; padding: 20px; color: #667085; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📞 Faz Call</h1>
+    <p>Connect with the people you love</p>
+  </header>
+  <main>
+    <section class="card">
+      <h2>Welcome to Faz Call</h2>
+      <p>Your voice, video and messaging app.</p>
+      <input id="phone" type="tel" placeholder="Enter phone number">
+      <button onclick="sendCode()">Continue</button>
+      <div id="otpArea" hidden>
+        <input id="otp" inputmode="numeric" placeholder="Enter demo code">
+        <button onclick="verifyCode()">Verify</button>
+        <p><small>Demo code: 123456</small></p>
+      </div>
+      <p id="status"></p>
+    </section>
+    <section class="card">
+      <h2>👥 Contacts</h2>
+      <p>Add friends and connect with them.</p>
+      <input id="friend" placeholder="Friend's name">
+      <button onclick="addFriend()">Add Contact</button>
+      <ul id="contacts"></ul>
+    </section>
+    <section class="card">
+      <h2>💬 Messages</h2>
+      <div id="messages">No messages yet.</div>
+      <input id="message" placeholder="Write a message">
+      <button onclick="sendMessage()">Send Message</button>
+    </section>
+    <section class="card">
+      <h2>📱 Calls</h2>
+      <button onclick="demoCall('Voice')">📞 Voice Call</button>
+      <button onclick="demoCall('Video')">🎥 Video Call</button>
+      <button class="secondary" onclick="endCall()">End Call</button>
+      <p id="callStatus">No active call</p>
+    </section>
+    <section class="card">
+      <h2>👨‍👩‍👧‍👦 Groups</h2>
+      <input id="group" placeholder="Group name">
+      <button onclick="addGroup()">Create Group</button>
+      <ul id="groups"></ul>
+    </section>
+  </main>
+  <footer>Faz Call · Demo version</footer>
+  <script>
+    function sendCode() {
+      const phone = document.getElementById('phone').value.trim();
+      if (!phone) {
+        document.getElementById('status').textContent =
+          'Please enter your phone number.';
+        return;
+      }
+      document.getElementById('otpArea').hidden = false;
+      document.getElementById('status').textContent =
+        'Demo mode: no SMS was sent.';
+    }
+    function verifyCode() {
+      const code = document.getElementById('otp').value.trim();
+      document.getElementById('status').textContent =
+        code === '123456'
+          ? 'Demo login successful!'
+          : 'Incorrect demo code.';
+    }
+    function addFriend() {
+      const field = document.getElementById('friend');
+      const name = field.value.trim();
+      if (!name) return;
+      const item = document.createElement('li');
+      item.textContent = name;
+      document.getElementById('contacts').appendChild(item);
+      field.value = '';
+    }
+    function sendMessage() {
+      const field = document.getElementById('message');
+      const message = field.value.trim();
+      if (!message) return;
+      const area = document.getElementById('messages');
+      if (area.textContent === 'No messages yet.') area.textContent = '';
+      const item = document.createElement('p');
+      item.textContent = 'You: ' + message;
+      area.appendChild(item);
+      field.value = '';
+    }
+    function demoCall(type) {
+      document.getElementById('callStatus').textContent =
+        type + ' call demo screen — no real call connected.';
+    }
+    function endCall() {
+      document.getElementById('callStatus').textContent = 'No active call';
+    }
+    function addGroup() {
+      const field = document.getElementById('group');
+      const name = field.value.trim();
+      if (!name) return;
+      const item = document.createElement('li');
+      item.textContent = name;
+      document.getElementById('groups').appendChild(item);
+      field.value = '';
+    }
+  </script>
+</body>
+</html>
